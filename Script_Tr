@@ -1,0 +1,77 @@
+#!/bin/bash
+
+if [ $# = 1 ]
+then
+
+cd ./Traceroute
+
+test=0
+addr=$1
+for i in `seq 1 10`
+do
+	if [ $(echo $1 | cut --byte=1) = $i ]
+	then
+	test=1
+	fi
+done
+
+if [ $test = 0 ]
+then
+	addr=$(nslookup iut.univ-reunion.fr | grep Address | cut -d$'\n' -f2 | awk '{print $2}')
+fi
+
+#Ici l addr est défini, il faut maintenant l exploiter
+
+echo $addr
+> $addr.route
+chmod 764 $addr.route
+
+# fichier de stockage de la requête vers $addr fait
+
+	list=(
+		"-I"
+		"-U -p 53"
+		"-U -p 123" 
+		"-T -p 22"
+		"-T -p 80"
+		"-T -p 443"
+		"-w 30"
+	)
+
+a=1
+
+while [ "$test" != $addr ]
+do
+	var=$(traceroute -n -A -f $a -m $a $addr | awk '{print $2 " " $3}' | cut -d$'\n' -f2)
+	test=$(echo $var | cut -d" " -f1)
+	
+	if [ "$var" = "* *" ]; then
+
+		for i in "${list[@]}"; do
+			var=$(traceroute -n -A -f $a -m $a $i $addr | awk '{print $2 " " $3}' | cut -d$'\n' -f2)
+			test=$(echo $var | cut -d" " -f1)
+			
+			echo "$a : $var"
+			if [ "$var" != "* *" ]; then
+				break
+			fi
+			
+		done
+	else
+		echo "$a : $var"
+	fi
+	if [ "$var" != "* *" ]; then
+		echo '"'"$a : $var"'"' >> $addr.route
+	else
+		echo '"'"$a : Erreur"'"' >> $addr.route
+	fi
+	a=`expr $a + 1`
+done
+
+
+
+
+
+else
+echo "veuillez rentrer une adresse"
+fi
