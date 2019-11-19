@@ -6,6 +6,8 @@ echo "digraph mon_graphe {"
 for i in `seq 1 $nbr`
 do
 
-echo $(ls Traceroute/ | cut -d" " -f1 | tr '\n' '|' | sed -e "s/|/ -> /g" | sed -e "s/ -> $//g")
+echo "$(ls Traceroute/ | cut -d" " -f1 | tr '\n' '|' | sed -e "s/|/ -> /g" | sed -e "s/ -> $//g") ;"
 
 done
+
+echo "}"
