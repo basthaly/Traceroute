@@ -68,9 +68,7 @@ do
 	a=`expr $a + 1`
 done
 
-
-
-
+cd ..
 
 else
 echo "veuillez rentrer une adresse"
