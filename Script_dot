@@ -4,5 +4,5 @@ nbr=$(ls -l Traceroute | grep route | wc -l)
 
 for i in `seq 1 $nbr`
 do
-echo $nbr
+echo $i
 done
