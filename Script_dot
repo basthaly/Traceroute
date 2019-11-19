@@ -2,12 +2,12 @@
 
 nbr=$(ls -l Traceroute | grep route | wc -l)
 
-echo "digraph mon_graphe {"
+echo "digraph mon_graphe {" > Route.pdf
 for i in `seq 1 $nbr`
 do
 
-echo "$(ls Traceroute/ | cut -d" " -f1 | tr '\n' '|' | sed -e "s/|/ -> /g" | sed -e "s/ -> $//g") ;"
+echo "$(ls Traceroute/ | cut -d" " -f1 | tr '\n' '|' | sed -e "s/|/ -> /g" | sed -e "s/ -> $//g") ;" >> Route.pdf
 
 done
 
-echo "}"
+echo "}" >> Route.pdf
