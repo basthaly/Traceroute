@@ -5,7 +5,7 @@ nbr=$(ls -l Traceroute | grep route | wc -l)
 echo "digraph mon_graphe {" > Route.txt
 for i in `seq 1 $nbr`
 do
-echo "$(cat Traceroute/$(ls Traceroute/ | tr '\n' ' ' | cut -d" " -f1) | tr '\n' '|' | sed -e "s/|/ -> /g" | sed -e "s/ -> $//g") ;" >> Route.txt
+echo "$(cat Traceroute/$(ls Traceroute/ | tr '\n' ' ' | cut -d" " -f$nbr) | tr '\n' '|' | sed -e "s/|/ -> /g" | sed -e "s/ -> $//g") ;" >> Route.txt
 
 done
 
