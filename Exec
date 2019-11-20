@@ -1,5 +1,5 @@
 #!/bin/bash
 
 for i in `seq 1 $(cat ip.txt | wc -l)`; do
-	echo "$(./Script_tr $(cat ip.txt | tr "\n" " " | cut -d" " -f$i))"
+	echo "$(./Script_Tr $(cat ip.txt | tr "\n" " " | cut -d" " -f$i))"
 done
