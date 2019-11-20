@@ -1,16 +1,5 @@
 #!/bin/bash
 
-list=(
-	"37.48.108.114"
-	"37.187.140.223"
-	"91.198.174.192"
-	"109.234.161.20"
-	"134.59.136.6"
-	"194.199.73.55"
-	"194.199.227.80"
-	"213.162.50.248"
-)
-
-for i in "${list[@]}"; do
-	echo "$(./Script_Tr $i)"
+for i in `seq 1 $(cat ip.txt | wc -l)`; do
+	echo "$(./Script_tr $(cat ip.txt | tr "\n" " " | cut -d" " -f$i))"
 done
