@@ -64,7 +64,7 @@ do
 		echo "$a : $var"
 	fi
 	if [ "$var" != "* *" ]; then
-		echo '"'"$a : $var"'"' >> $addr.route
+		echo '"'"$var"'"' >> $addr.route
 	else
 		echo '"'"$a : Erreur"'"' >> $addr.route
 	fi
