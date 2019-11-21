@@ -68,7 +68,11 @@ then
 		if [ "$var" != "* *" ]; then
 			echo '"'"$var"'"' >> $addr.route
 		else
-			echo '"'"No reply ($addr)"'"' >> $addr.route
+			if [ $a == "4" ]; then
+				echo '"'"No reply : $a"'"' >> $addr.route
+			else
+				echo '"'"No reply : $a ($addr)"'"' >> $addr.route
+			fi
 		fi
 		a=`expr $a + 1`
 	done
