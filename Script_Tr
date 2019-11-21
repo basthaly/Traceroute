@@ -53,7 +53,7 @@ then
 		if [ "$var" = "* *" ]; then
 
 			for i in "${list[@]}"; do
-				var=$(traceroute -q 1-n -A -f $a -m $a $i $addr | awk '{print $2 " " $3}' | cut -d$'\n' -f2)
+				var=$(traceroute -q 1 -n -A -f $a -m $a $i $addr | awk '{print $2 " " $3}' | cut -d$'\n' -f2)
 				test=$(echo $var | cut -d" " -f1)
 
 				echo "$a : $var"
@@ -65,7 +65,7 @@ then
 		else
 			echo "$a : $var"
 		fi
-		if [ "$var" != "* *" ]; then
+		if [ "$var" != "*" ]; then
 			echo '"'"$var"'"' >> $addr.route
 		else
 			if [ $a == "4" ]; then
