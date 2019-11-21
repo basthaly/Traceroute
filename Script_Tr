@@ -47,13 +47,13 @@ then
 
 	while [ "$test" != $addr ]
 	do
-		var=$(traceroute -n -A -f $a -m $a $addr | awk '{print $2 " " $3}' | cut -d$'\n' -f2)
+		var=$(traceroute -q 1 -n -A -f $a -m $a $addr | awk '{print $2 " " $3}' | cut -d$'\n' -f2)
 		test=$(echo $var | cut -d" " -f1)
 
 		if [ "$var" = "* *" ]; then
 
 			for i in "${list[@]}"; do
-				var=$(traceroute -n -A -f $a -m $a $i $addr | awk '{print $2 " " $3}' | cut -d$'\n' -f2)
+				var=$(traceroute -q 1-n -A -f $a -m $a $i $addr | awk '{print $2 " " $3}' | cut -d$'\n' -f2)
 				test=$(echo $var | cut -d" " -f1)
 
 				echo "$a : $var"
