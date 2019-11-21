@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "- $(traceroute -q 1 -n -A -f 4 -m 4 iutbeziers.fr | awk '{print $2 " " $3}' | cut -d$'\n' -f2) -"
+if [ "$(traceroute -q 1 -n -A -f 4 -m 4 iutbeziers.fr | awk '{print $2 " " $3}' | cut -d$'\n' -f2 | sed -e 's/ //g')" == "*" ]; then
+	echo "oui"
+else
+	echo "non"
+fi
