@@ -58,12 +58,21 @@ then
 
 				echo "$a : $var"
 				if [ "$var" != "* " ]; then
-					for j in `seq 1 $(cat except.txt | wc -l)`; do
-						if [$(cat ip.txt | tr "\n" " " | cut -d" " -f$j) = $var ] : then
-							break
-						fi
-						echo '"'"$var"'"' "$i" >> $addr.route
-					done
+					num=$(cat ../except.txt | wc -l)
+					if [ $num = "0" ]; then
+						echo "oui"
+						echo '"'"$var"'"' '"'"$i"'"' >> ../except.txt
+					else
+						for j in `seq 1 $num` ; do
+						echo "Test $(cat ../except.txt | tr "\n" "|" | cut -d"|" -f$j | cut -d" " -f1-2 | sed -e "s/\"//g")"
+							if [ "$(cat ../except.txt | tr "\n" "|" | cut -d"|" -f$j | cut -d" " -f1-2 | sed -e "s/\"//g")" = "$var" ] ; then
+								echo "break"
+								break
+							fi
+							echo "Check ton fichier"
+							echo '"'"$var"'"' '"'"$i"'"' >> ../except.txt
+						done
+					fi
 					break
 				fi
 
