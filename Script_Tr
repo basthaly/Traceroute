@@ -63,15 +63,16 @@ then
 						echo "oui"
 						echo '"'"$var"'"' '"'"$i"'"' >> ../except.txt
 					else
+						test_var="False"
 						for j in `seq 1 $num` ; do
-						echo "Test $(cat ../except.txt | tr "\n" "|" | cut -d"|" -f$j | cut -d" " -f1-2 | sed -e "s/\"//g")"
 							if [ "$(cat ../except.txt | tr "\n" "|" | cut -d"|" -f$j | cut -d" " -f1-2 | sed -e "s/\"//g")" = "$var" ] ; then
-								echo "break"
+								test_var="True"
 								break
 							fi
-							echo "Check ton fichier"
-							echo '"'"$var"'"' '"'"$i"'"' >> ../except.txt
 						done
+						if [ $test_var = "False" ]; then
+							echo '"'"$var"'"' '"'"$i"'"' >> ../except.txt
+						fi
 					fi
 					break
 				fi
