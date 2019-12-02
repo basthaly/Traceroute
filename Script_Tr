@@ -58,6 +58,12 @@ then
 
 				echo "$a : $var"
 				if [ "$var" != "* " ]; then
+					for j in `seq 1 $(cat except.txt | wc -l)`; do
+						if [$(cat ip.txt | tr "\n" " " | cut -d" " -f$j) = $var ] : then
+							break
+						fi
+						echo '"'"$var"'"' "$i" >> $addr.route
+					done
 					break
 				fi
 
