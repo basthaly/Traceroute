@@ -98,6 +98,7 @@ then
 									break
 								fi
 								a=$a+1
+							done
 						fi
 					fi
 					break
