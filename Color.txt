@@ -1,0 +1,10 @@
+"-I"		#d63031		Rouge
+"-T -p 80"	#0984e3		Bleue
+"-U -p 53"	#e84393		Rose
+"-U -p 123"	#e17055		Orange
+"-T -p 21"	#fdcb6e		Jaune
+"-T -p 22"	#6c5ce7		Bleu violet
+"-T -p 443"	#a29bfe		Violet CLair
+"-T -p 5060"	#636e72		Noir clair
+"-U -p 5060"	#55efc4		Light Green
+"-w 30"		#ffeaa7		Jaune citron

@@ -32,15 +32,28 @@ then
 
 		list=(
 			"-I"
+			"-T -p 80"
 			"-U -p 53"
 			"-U -p 123"
 			"-T -p 21"
 			"-T -p 22"
-			"-T -p 80"
 			"-T -p 443"
 			"-T -p 5060"
 			"-U -p 5060"
 			"-w 30"
+		)
+
+		colors=(
+			"#d63031"
+			"#0984e3"
+			"#e84393"
+			"#e17055"
+			"#fdcb6e"
+			"#6c5ce7"
+			"#a29bfe"
+			"#636e72"
+			"#55efc4"
+			"#ffeaa7"
 		)
 
 	a=1
@@ -61,7 +74,14 @@ then
 					num=$(cat ../except.txt | wc -l)
 					if [ $num = "0" ]; then
 						echo "oui"
-						echo '"'"$var"'"' '"'"$i"'"' >> ../except.txt
+						a=1
+						for z in "${list[@]}"; do
+							if [ "$z" = "$i" ]; then
+								echo '"'"$var"'"' '"'"$i"'"' >> ../except.txt
+								break
+							fi
+							a=$a+1
+						done
 					else
 						test_var="False"
 						for j in `seq 1 $num` ; do
@@ -71,7 +91,13 @@ then
 							fi
 						done
 						if [ $test_var = "False" ]; then
-							echo '"'"$var"'"' '"'"$i"'"' >> ../except.txt
+							a=1
+							for z in "${list[@]}"; do
+								if [ "$z" = "$i" ]; then
+									echo '"'"$var"'"' '"'"$i"'"' >> ../except.txt
+									break
+								fi
+								a=$a+1
 						fi
 					fi
 					break
