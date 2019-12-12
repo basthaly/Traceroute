@@ -1,5 +1,19 @@
 #!/bin/bash
 
+function ip_calc {
+var=$(echo $1 | sed -e 's/\"//g' | cut -d"." -f1)
+
+if [ $var -ge 0 ] && [ $var -le 126 ]; then
+    echo "/8"
+elif [ $var -ge 128 ] && [ $var -le 191 ]; then
+    echo "/16"
+elif [ $var -ge 192 ] && [ $var -le 223 ]; then
+    echo "/24"
+else
+    echo "/?"
+fi
+}
+
 for z in `seq 1 $(cat ip.txt | wc -l)`; do
 
 	test=0
@@ -25,6 +39,10 @@ for z in `seq 1 $(cat ip.txt | wc -l)`; do
 
 	echo $addr
 	> $addr.route
+	chmod 764 $addr.route
+
+	#Création fichier d'exception
+	> ../except.txt
 	chmod 764 $addr.route
 
 	# fichier de stockage de la requête vers $addr fait
@@ -75,7 +93,8 @@ for z in `seq 1 $(cat ip.txt | wc -l)`; do
 						b=0
 						for z in "${list[@]}"; do
 							if [ "$z" = "$i" ]; then
-								echo "\"$var\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> ../except.txt
+								var2=$(ip_calc $var) 
+								echo "\"$var $var2\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> ../except.txt
 								break
 							fi
 							b=`expr $b + 1`
@@ -92,8 +111,8 @@ for z in `seq 1 $(cat ip.txt | wc -l)`; do
 							b=1
 							for z in "${list[@]}"; do
 								if [ "$z" = "$i" ]; then
-									var=$(ipcalc $var | grep Network | awk '{print $2}') #ajout de cette ligne, voir si elle marche
-									echo "\"$var\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> ../except.txt
+									var2=$(ip_calc $var) 
+									echo "\"$var $var2\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> ../except.txt
 									break
 								fi
 								b=`expr $b + 1`
@@ -108,13 +127,13 @@ for z in `seq 1 $(cat ip.txt | wc -l)`; do
 			echo "$a : $var"
 		fi
 		if [ "$var" != "* " ]; then
-			var=$(ipcalc $var | grep Network | awk '{print $2}') #ajout de cette ligne, voir si elle marche
-			echo '"'"$var"'"' >> $addr.route
+			var2=$(ip_calc $var)
+			echo "\"$var $var2\"" >> $addr.route
 		else
 			if [ $a == "4" ]; then
-				echo '"'"No reply : $a"'"' >> $addr.route
+				echo "\"No reply : $a\"" >> $addr.route
 			else
-				echo '"'"No reply : $a ($addr)"'"' >> $addr.route
+				echo "\"No reply : $a ($addr)\"" >> $addr.route
 			fi
 		fi
 		a=`expr $a + 1`
@@ -126,3 +145,4 @@ done
 
 echo $(./Script_dot)
 echo $(dot -Tpdf Route.txt -o Route.pdf)
+chmod 764 Route.pdf
