@@ -1,17 +1,16 @@
 #!/bin/bash
 
-if [ $# = 1 ]
-then
+for z in `seq 1 $(cat ip.txt | wc -l)`; do
+
+	test=0
+	addr=$(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+	echo $addr
 
 	cd ./Traceroute
 
-	test=0
-	addr=$1
-	echo $addr
-
 	for i in `seq 1 10`
 	do
-		if [ $(echo $1 | cut --byte=1) = $i ]
+		if [ $(echo $addr | cut --byte=1) = $i ]
 		then
 		test=1
 		fi
@@ -93,6 +92,7 @@ then
 							b=1
 							for z in "${list[@]}"; do
 								if [ "$z" = "$i" ]; then
+									var=$(ipcalc $var | grep Network | awk '{print $2}') #ajout de cette ligne, voir si elle marche
 									echo "\"$var\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> ../except.txt
 									break
 								fi
@@ -108,6 +108,7 @@ then
 			echo "$a : $var"
 		fi
 		if [ "$var" != "* " ]; then
+			var=$(ipcalc $var | grep Network | awk '{print $2}') #ajout de cette ligne, voir si elle marche
 			echo '"'"$var"'"' >> $addr.route
 		else
 			if [ $a == "4" ]; then
@@ -121,6 +122,7 @@ then
 
 	cd ..
 
-else
-	echo "veuillez rentrer une adresse"
-fi
+done
+
+echo $(./Script_dot)
+echo $(dot -Tpdf Route.txt -o Route.pdf)

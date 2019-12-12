@@ -8,4 +8,6 @@ for i in `seq 1 $nbr`; do
     echo "$(cat Traceroute/$var | tr '\n' '|' | sed -e "s/|/ -> /g" | sed -e "s/ -> $//g") ;" >> Route.txt
 done
 
+echo "$(cat except.txt)" >> Route.txt
+
 echo "}" >> Route.txt
