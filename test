@@ -1,8 +1,17 @@
 #!/bin/bash
+function mafonction {
+var=$(echo "\"$1 [*]\"" | sed -e 's/\"//g' | cut -d"." -f1)
 
-echo "- $(traceroute -q 1 -n -A -f 4 -m 4 iutbeziers.fr | awk '{print $2 " " $3}' | cut -d$'\n' -f2) -"
-if [ "$(traceroute -q 1 -n -A -f 4 -m 4 iutbeziers.fr | awk '{print $2 " " $3}' | cut -d$'\n' -f2)" == "* " ]; then
-	echo "oui"
+if [ $var -ge 0 ] && [ $var -le 126 ]; then
+    echo "/8"
+elif [ $var -ge 128 ] && [ $var -le 191 ]; then
+    echo "/16"
+elif [ $var -ge 192 ] && [ $var -le 223 ]; then
+    echo "/24"
 else
-	echo "non"
+    echo "/?"
 fi
+}
+
+var=$(mafonction 192.168.1.1)
+echo $var

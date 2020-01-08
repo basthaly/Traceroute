@@ -5,6 +5,6 @@
 "-T -p 21"	#fdcb6e		Jaune
 "-T -p 22"	#6c5ce7		Bleu violet
 "-T -p 443"	#a29bfe		Violet CLair
-"-T -p 5060"	#636e72		Noir clair
+"-T -p 5060"	#636e72		Gris foncé
 "-U -p 5060"	#55efc4		Light Green
 "-w 30"		#ffeaa7		Jaune citron
