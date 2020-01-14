@@ -38,17 +38,19 @@ Exemple:
             ;;
 
         s)
-            echo "s"
             ./Trace.sh $OPTARG
             shift $((OPTIND-1))
             ;;
         
         f)
-            echo "f"
             fichier=$OPTARG
             ;;
         
         a)
+            #Création fichier d'exception
+            > except.txt
+            chmod 764 except.txt
+
             for z in `seq 1 $(cat $fichier | wc -l)`; do
                 ./Trace.sh $z
             done
@@ -71,6 +73,6 @@ Exemple:
             ;;
 
         *) echo "Option $OPTNAME inconnue" ;;
-        
+
     esac
 done
