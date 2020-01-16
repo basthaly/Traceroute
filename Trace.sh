@@ -87,7 +87,6 @@ do
 					b=0
 					for z in "${list[@]}"; do
 						if [ "$1" = "$i" ]; then
-							echo $(echo $1 | sed -e 's/\"//g' | cut -d"." -f1)
 							var2=$(ip_calc $var) 
 							echo "\"$var $var2\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> ../except.txt
 							break
@@ -106,7 +105,6 @@ do
 						b=1
 						for z in "${list[@]}"; do
 							if [ "$1" = "$i" ]; then
-								echo $(echo $1 | sed -e 's/\"//g' | cut -d"." -f1)
 								var2=$(ip_calc $var) 
 								echo "\"$var $var2\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> ../except.txt
 								break
@@ -123,7 +121,6 @@ do
 		echo "$a : $var"
 	fi
 	if [ "$var" != "* " ]; then
-		echo $(echo $1 | sed -e 's/\"//g' | cut -d"." -f1)
 		var2=$(ip_calc $var)
 		echo "\"$var $var2\"" >> $addr.route
 	else

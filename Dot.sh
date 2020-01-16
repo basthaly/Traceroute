@@ -11,3 +11,6 @@ done
 echo "$(cat except.txt)" >> Route.txt
 
 echo "}" >> Route.txt
+
+dot -Tpdf Route.txt -o Route.pdf
+chmod 764 Route.pdf
