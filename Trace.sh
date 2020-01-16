@@ -1,5 +1,10 @@
 #!/bin/bash
 
+
+######################################################
+##   Fonction qui permet de connaitre la "classe"   ##
+######################################################
+
 function ip_calc {
 var=$(echo $1 | sed -e 's/\"//g' | cut -d"." -f1)
 
@@ -18,6 +23,10 @@ test=0
 addr=$1
 echo "$addr"
 
+##################################################
+##   Vérifie si c'est une addr ip ou linéaire   ##
+##################################################
+
 for i in `seq 1 9`
 do
 	if [ $(echo "$addr" | cut --byte=1) == "$i" ]
@@ -26,18 +35,26 @@ do
 	fi
 done
 
+###########################################
+##   Récupérer l'ip de l'addr linéaire   ##
+###########################################
+
 if [ $test = 0 ]
 then
 	addr=$(nslookup $addr | grep Address | cut -d$'\n' -f2 | awk '{print $2}')
 fi
 
-#Ici l addr est défini, il faut maintenant l exploiter
+####################################
+##   Création du fichier .route   ##
+####################################
 
 echo $addr
 > Traceroute/$addr.route
 chmod 764 Traceroute/$addr.route
 
-# fichier de stockage de la requête vers $addr fait
+####################################
+##   Création des listes utiles   ##
+####################################
 
 	list=(
 		"-I"
@@ -66,6 +83,10 @@ chmod 764 Traceroute/$addr.route
 	)
 
 a=1
+
+###########################################
+##   Début du Traceroute  personnalisé   ##
+###########################################
 
 while [ "$test" != "$addr" ]
 do
