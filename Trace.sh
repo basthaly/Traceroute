@@ -80,7 +80,7 @@ do
 
 			echo "$a : $var"
 			if [ "$var" != "* " ]; then
-				num=$(cat ../except.txt | wc -l)
+				num=$(cat except.txt | wc -l)
 				if [ $num = "0" ]; then
 					b=0
 					for z in "${list[@]}"; do
@@ -94,7 +94,7 @@ do
 				else
 					test_var="False"
 					for j in `seq 1 $num` ; do
-						if [ "$(cat ../except.txt | tr "\n" "|" | cut -d"|" -f$j | cut -d" " -f1-2 | sed -e "s/\"//g")" = "$var" ] ; then
+						if [ "$(cat except.txt | tr "\n" "|" | cut -d"|" -f$j | cut -d" " -f1-2 | sed -e "s/\"//g")" = "$var" ] ; then
 							test_var="True"
 							break
 						fi
