@@ -49,7 +49,9 @@ done
 
 mkdir ./Traceroute
 dos2unix "$fichier"
+dos2unix ./Dot.sh
 chmod +x ./Dot.sh
+dos2unix ./Trace.sh
 chmod +x ./Trace.sh
 
 if [ "$help" == "1" ]; then
