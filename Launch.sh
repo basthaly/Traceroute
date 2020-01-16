@@ -10,7 +10,7 @@ debug="0"
 
 fichier="ip.txt"
 
-while getopts "hlatdf:s:" option
+while getopts "hxlatdf:s:" option
 do
 case $option in
     h)
@@ -59,10 +59,12 @@ done
 
 echo " "
 mkdir ./Traceroute
-dos2unix "$fichier"
-dos2unix ./Dot.sh
+
+dos2unix "$fichier" &
+dos2unix ./Dot.sh &
+dos2unix ./Trace.sh &
+
 chmod +x ./Dot.sh
-dos2unix ./Trace.sh
 chmod +x ./Trace.sh
 echo " "
 
@@ -116,19 +118,31 @@ elif [ "$all" == "1" -o "$trace" == "1" -a "$dire" == "1" ]; then
 
     for z in `seq 1 $(cat "$fichier" | wc -l)`; do
         if [ "$debug" == "0" ]; then
-            sudo ./Trace.sh $(cat $fichier | tr "\n" " " | cut -d" " -f$z)
+            addr=$(cat $fichier | tr "\n" " " | cut -d" " -f$z)
+            if [ "$addr" != "" ];then
+                sudo ./Trace.sh $addr
+            fi
         else
-            sudo bash -x ./Trace.sh $(cat $fichier | tr "\n" " " | cut -d" " -f$z)
+            addr=$(cat $fichier | tr "\n" " " | cut -d" " -f$z)
+            if [ "$addr" != "" ];then
+                sudo bash -x ./Trace.sh $addr
+            fi
         fi
     done
 
     sudo ./Dot.sh
 
 elif [ "$serv" == "1" ]; then
-    if [ "$debug" == "0" ]; then
-        sudo ./Trace.sh $serveur
+    nslookup $serveur &
+    test=$(echo $?)
+    if ["$test" == "0" ]; then
+        if [ "$debug" == "0" ]; then
+            sudo ./Trace.sh $serveur
+        else
+            sudo bash -x ./Trace.sh $serveur
+        fi
     else
-        sudo bash -x ./Trace.sh $serveur
+        echo -e "\nPrenez un site valide \n"
     fi
 
 elif [ "$trace" == "1" ]; then
@@ -137,9 +151,15 @@ elif [ "$trace" == "1" ]; then
 
     for z in `seq 1 $(cat $fichier | wc -l)`; do
         if [ "$debug" == "0" ]; then
-            sudo ./Trace.sh $(cat $fichier | tr "\n" " " | cut -d" " -f$z)
+            addr=$(cat $fichier | tr "\n" " " | cut -d" " -f$z)
+            if [ "$addr" != "" ];then
+                sudo ./Trace.sh $addr
+            fi
         else
-            sudo bash -x ./Trace.sh $(cat $fichier | tr "\n" " " | cut -d" " -f$z)
+            addr=$(cat $fichier | tr "\n" " " | cut -d" " -f$z)
+            if [ "$addr" != "" ];then
+                sudo bash -x ./Trace.sh $addr
+            fi
         fi
     done
 
