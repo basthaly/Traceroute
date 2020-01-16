@@ -58,11 +58,14 @@ esac
 done
 
 echo " "
-mkdir ./Traceroute
+ls ./Traceroute
+if [ "$(echo $?)" != "0" ]; then
+    mkdir ./Traceroute
+fi
 
-dos2unix "$fichier" &
-dos2unix ./Dot.sh &
-dos2unix ./Trace.sh &
+dos2unix "$fichier"
+dos2unix ./Dot.sh
+dos2unix ./Trace.sh
 
 chmod +x ./Dot.sh
 chmod +x ./Trace.sh
@@ -133,9 +136,9 @@ elif [ "$all" == "1" -o "$trace" == "1" -a "$dire" == "1" ]; then
     sudo ./Dot.sh
 
 elif [ "$serv" == "1" ]; then
-    nslookup $serveur &
+    nslookup $serveur >> /dev/null
     test=$(echo $?)
-    if ["$test" == "0" ]; then
+    if [ "$test" == "0" ]; then
         if [ "$debug" == "0" ]; then
             sudo ./Trace.sh $serveur
         else
