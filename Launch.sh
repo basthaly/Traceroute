@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#######################################
+##   Création des variables utiles   ##
+#######################################
+
 help="0"
 serv="0"
 all="0"
@@ -9,6 +13,10 @@ list="0"
 debug="0"
 
 fichier="ip.txt"
+
+######################################
+##   Identification des arguments   ##
+######################################
 
 while getopts "hxlatdf:s:" option
 do
@@ -56,6 +64,10 @@ case $option in
 
 esac
 done
+
+######################################
+##    Utilisations des arguments    ##
+######################################
 
 echo " "
 ls ./Traceroute
@@ -202,7 +214,7 @@ Exemple:
     launch -l
         donne la liste de site
 
-    launch [-a] [-s google.fr] -x
+    launch [-a] [-s site] -x
         Va executer le programme en mode débug
 
     """
