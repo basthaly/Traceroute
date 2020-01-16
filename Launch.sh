@@ -5,10 +5,12 @@ serv="0"
 all="0"
 trac="0"
 dot="0"
+list="0"
+debug="0"
 
 fichier="ip.txt"
 
-while getopts "hatdf:s:" option
+while getopts "hlatdf:s:" option
 do
 case $option in
     h)
@@ -35,6 +37,13 @@ case $option in
     d)
         dot="1"
         ;;
+
+    l)
+        list="1"
+        ;;
+    
+    x)
+        debug="1"
 
     \?)
         exit 1
@@ -84,7 +93,16 @@ Exemple:
     launch -s google.fr
         va executer un traceroute sur le site en question
 
+    launch -l
+        donne la liste de site
+
+    launch [-a] [-s google.fr] -x
+        Va executer le programme en mode débug
+
     """
+
+elif [ "$list" == "1" ]; then
+    echo $(cat $fichier)
 
 elif [ "$all" == "1" -a "$serv" == "1" ]; then
     echo -e "\nVous ne pouvez pas utiliser l'option -a et -s en même temps \n"
@@ -94,20 +112,32 @@ elif [ "$all" == "1" -o "$trace" == "1" -a "$dire" == "1" ]; then
     chmod 764 except.txt
 
     for z in `seq 1 $(cat "$fichier" | wc -l)`; do
-        sudo ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+        if [ "debug" == "0"]; then
+            sudo ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+        else
+            sudo bash -x ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+        fi
     done
 
     sudo ./Dot.sh
 
 elif [ "$serv" == "1" ]; then
-    sudo ./Trace.sh $serveur
+    if [ "debug" == "0"]; then
+        sudo ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+    else
+        sudo bash -x ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+    fi
 
 elif [ "$trace" == "1" ]; then
     > except.txt
     chmod 764 except.txt
 
     for z in `seq 1 $(cat $fichier | wc -l)`; do
-    sudo ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+        if [ "debug" == "0"]; then
+            sudo ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+        else
+            sudo bash -x ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+        fi
     done
 
 elif [ "$dot" == "1" ]; then
@@ -142,6 +172,12 @@ Exemple:
 
     launch -s google.fr
         va executer un traceroute sur le site en question
+
+    launch -l
+        donne la liste de site
+
+    launch [-a] [-s google.fr] -x
+        Va executer le programme en mode débug
 
     """
 
