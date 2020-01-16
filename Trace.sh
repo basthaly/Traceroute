@@ -69,7 +69,7 @@ chmod 764 $addr.route
 
 a=1
 
-while [ "$test" != $addr ]
+while [ "$test" != "$addr" ]
 do
 	var=$(traceroute -q 1 -n -A -f $a -m $a $addr | awk '{print $2 " " $3}' | cut -d$'\n' -f2)
 	test=$(echo $var | cut -d" " -f1)

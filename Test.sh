@@ -86,8 +86,8 @@ elif [ "$all" == "1" -o "$trace" == "1" -a "$dire" == "1" ]; then
     > except.txt
     chmod 764 except.txt
 
-    for z in `seq 1 $(cat $fichier | wc -l)`; do
-    sudo ./Trace.sh $z
+    for z in `seq 1 $(cat "$fichier" | wc -l)`; do
+        sudo ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
     done
 
     sudo ./Dot.sh
@@ -102,7 +102,7 @@ elif [ "$trace" == "1" ]; then
     chmod 764 except.txt
 
     for z in `seq 1 $(cat $fichier | wc -l)`; do
-    sudo ./Trace.sh $z
+    sudo ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
     done
 
 elif [ "$dot" == "1" ]; then
