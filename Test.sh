@@ -87,26 +87,26 @@ elif [ "$all" == "1" -o "$trace" == "1" -a "$dire" == "1" ]; then
     chmod 764 except.txt
 
     for z in `seq 1 $(cat $fichier | wc -l)`; do
-    ./Trace.sh $z
+    sudo ./Trace.sh $z
     done
 
-    ./Dot.sh
+    sudo ./Dot.sh
     dot -Tpdf Route.txt -o Route.pdf
     chmod 764 Route.pdf
 
 elif [ "$serv" == "1" ]; then
-    ./Trace.sh $serveur
+    sudo ./Trace.sh $serveur
 
 elif [ "$trace" == "1" ]; then
     > except.txt
     chmod 764 except.txt
 
     for z in `seq 1 $(cat $fichier | wc -l)`; do
-    ./Trace.sh $z
+    sudo ./Trace.sh $z
     done
 
 elif [ "$dot" == "1" ]; then
-    ./Dot.sh
+    sudo ./Dot.sh
     dot -Tpdf Route.txt -o Route.pdf
     chmod 764 Route.pdf
 

@@ -3,11 +3,11 @@
 function ip_calc {
 var=$(echo $1 | sed -e 's/\"//g' | cut -d"." -f1)
 
-if [ "$var" -ge 0 -a "$var" -le 126 ]; then
+if [ $var -ge 0 -a $var -le 126 ]; then
     echo "/8"
-elif [ "$var" -ge 128 -a "$var" -le 191 ]; then
+elif [ $var -ge 128 -a $var -le 191 ]; then
     echo "/16"
-elif [ "$var" -ge 192 -a "$var" -le 223 ]; then
+elif [ $var -ge 192 -a $var -le 223 ]; then
     echo "/24"
 else
     echo "/?"
@@ -22,7 +22,7 @@ cd ./Traceroute
 
 for i in `seq 1 9`
 do
-	if [ $(echo $addr | cut --byte=1) = $i ]
+	if [ $(echo "$addr" | cut --byte=1) == "$i" ]
 	then
 	test=1
 	fi
@@ -87,6 +87,7 @@ do
 					b=0
 					for z in "${list[@]}"; do
 						if [ "$1" = "$i" ]; then
+							echo $(echo $1 | sed -e 's/\"//g' | cut -d"." -f1)
 							var2=$(ip_calc $var) 
 							echo "\"$var $var2\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> ../except.txt
 							break
@@ -105,6 +106,7 @@ do
 						b=1
 						for z in "${list[@]}"; do
 							if [ "$1" = "$i" ]; then
+								echo $(echo $1 | sed -e 's/\"//g' | cut -d"." -f1)
 								var2=$(ip_calc $var) 
 								echo "\"$var $var2\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> ../except.txt
 								break
@@ -121,6 +123,7 @@ do
 		echo "$a : $var"
 	fi
 	if [ "$var" != "* " ]; then
+		echo $(echo $1 | sed -e 's/\"//g' | cut -d"." -f1)
 		var2=$(ip_calc $var)
 		echo "\"$var $var2\"" >> $addr.route
 	else
