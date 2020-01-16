@@ -18,8 +18,6 @@ test=0
 addr=$1
 echo "$addr"
 
-cd ./Traceroute
-
 for i in `seq 1 9`
 do
 	if [ $(echo "$addr" | cut --byte=1) == "$i" ]
@@ -36,8 +34,8 @@ fi
 #Ici l addr est défini, il faut maintenant l exploiter
 
 echo $addr
-> $addr.route
-chmod 764 $addr.route
+> Traceroute/$addr.route
+chmod 764 Traceroute/$addr.route
 
 # fichier de stockage de la requête vers $addr fait
 
@@ -88,7 +86,7 @@ do
 					for z in "${list[@]}"; do
 						if [ "$1" = "$i" ]; then
 							var2=$(ip_calc $var) 
-							echo "\"$var $var2\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> ../except.txt
+							echo "\"$var $var2\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> except.txt
 							break
 						fi
 						b=`expr $b + 1`
@@ -106,7 +104,7 @@ do
 						for z in "${list[@]}"; do
 							if [ "$1" = "$i" ]; then
 								var2=$(ip_calc $var) 
-								echo "\"$var $var2\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> ../except.txt
+								echo "\"$var $var2\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> except.txt
 								break
 							fi
 							b=`expr $b + 1`
@@ -122,15 +120,13 @@ do
 	fi
 	if [ "$var" != "* " ]; then
 		var2=$(ip_calc $var)
-		echo "\"$var $var2\"" >> $addr.route
+		echo "\"$var $var2\"" >> Traceroute/$addr.route
 	else
 		if [ $a == "4" ]; then
-			echo "\"No reply : $a\"" >> $addr.route
+			echo "\"No reply : $a\"" >> Traceroute/$addr.route
 		else
-			echo "\"No reply : $a ($addr)\"" >> $addr.route
+			echo "\"No reply : $a ($addr)\"" >> Traceroute/$addr.route
 		fi
 	fi
 	a=`expr $a + 1`
 done
-
-cd ..

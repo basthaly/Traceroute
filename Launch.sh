@@ -47,7 +47,10 @@ case $option in
 esac
 done
 
+mkdir ./Traceroute
 dos2unix "$fichier"
+chmod +x Dot.sh
+chmod +x Trace.sh
 
 if [ "$help" == "1" ]; then
     echo """
