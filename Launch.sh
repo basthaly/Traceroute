@@ -44,6 +44,7 @@ case $option in
     
     x)
         debug="1"
+        ;;
 
     \?)
         exit 1
@@ -56,12 +57,14 @@ case $option in
 esac
 done
 
+echo " "
 mkdir ./Traceroute
 dos2unix "$fichier"
 dos2unix ./Dot.sh
 chmod +x ./Dot.sh
 dos2unix ./Trace.sh
 chmod +x ./Trace.sh
+echo " "
 
 if [ "$help" == "1" ]; then
     echo """
@@ -112,20 +115,20 @@ elif [ "$all" == "1" -o "$trace" == "1" -a "$dire" == "1" ]; then
     chmod 764 except.txt
 
     for z in `seq 1 $(cat "$fichier" | wc -l)`; do
-        if [ "debug" == "0"]; then
-            sudo ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+        if [ "$debug" == "0" ]; then
+            sudo ./Trace.sh $(cat $fichier | tr "\n" " " | cut -d" " -f$z)
         else
-            sudo bash -x ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+            sudo bash -x ./Trace.sh $(cat $fichier | tr "\n" " " | cut -d" " -f$z)
         fi
     done
 
     sudo ./Dot.sh
 
 elif [ "$serv" == "1" ]; then
-    if [ "debug" == "0"]; then
-        sudo ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+    if [ "$debug" == "0" ]; then
+        sudo ./Trace.sh $serveur
     else
-        sudo bash -x ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+        sudo bash -x ./Trace.sh $serveur
     fi
 
 elif [ "$trace" == "1" ]; then
@@ -133,10 +136,10 @@ elif [ "$trace" == "1" ]; then
     chmod 764 except.txt
 
     for z in `seq 1 $(cat $fichier | wc -l)`; do
-        if [ "debug" == "0"]; then
-            sudo ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+        if [ "$debug" == "0" ]; then
+            sudo ./Trace.sh $(cat $fichier | tr "\n" " " | cut -d" " -f$z)
         else
-            sudo bash -x ./Trace.sh $(cat ip.txt | tr "\n" " " | cut -d" " -f$z)
+            sudo bash -x ./Trace.sh $(cat $fichier | tr "\n" " " | cut -d" " -f$z)
         fi
     done
 
