@@ -63,7 +63,7 @@ case $option in
     f)
         ls $OPTARG &> /dev/null
         if [ "$(echo $?)" != 0 ]; then
-            echo -e "\nLe fichier précisé est introuvable :"
+            echo -e "\nLe fichier précisé est introuvable"
             exit 1
         fi
         fichier=$OPTARG
