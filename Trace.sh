@@ -21,7 +21,7 @@ fi
 
 test=0
 addr=$1
-echo "$addr"
+echo -e "\n\e[35m$addr : \c"
 
 ##################################################
 ##   Vérifie si c'est une addr ip ou linéaire   ##
@@ -48,7 +48,7 @@ fi
 ##   Création du fichier .route   ##
 ####################################
 
-echo $addr
+echo -e "\e[35m$addr"
 > Traceroute/$addr.route
 chmod 764 Traceroute/$addr.route
 
@@ -101,7 +101,7 @@ do
 
 			echo "$a : $var"
 			if [ "$var" != "* " ]; then
-				num=$(cat except.txt | wc -l)
+				num=$(($(cat "except.txt" | wc -l)+1))
 				if [ $num = "0" ]; then
 					b=0
 					for z in "${list[@]}"; do

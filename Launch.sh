@@ -123,7 +123,7 @@ chmod +x ./Trace.sh
 echo " "
 
 if [ "$help" == "1" ]; then
-    echo """\e[32m
+    echo -e """\e[32m
 Name :
     Launch : Script permettant d'utiliser Traceroute et d'en sortir un graphe dot.
 
@@ -142,7 +142,7 @@ Exemple:
         Va executer un traceroute et va en créer le graph à partir d'un ficher de site déja défini
 
     launch -t -d -f fichier
-        va executer un traceroute et va en créer le graph à partir d'un fichier donnée
+        Va executer un traceroute et va en créer le graph à partir d'un fichier donnée
         Le fichier doit avoir un site par ligne
         '
         google.fr
@@ -150,10 +150,13 @@ Exemple:
         '
 
     launch -s google.fr
-        va executer un traceroute sur le site en question
+        Va executer un traceroute sur le site en question
 
     launch -l
-        donne la liste de site
+        Donne la liste de site
+
+    launch -e
+        Supprime les fichiers créer par se programme
 
     launch [-a] [-s google.fr] -x
         Va executer le programme en mode débug
@@ -167,8 +170,8 @@ elif [ "$effacer" == "1" ]; then
     rm -f Route.txt
 
 elif [ "$list" == "1" ]; then
-    echo "Liste des serveur dans le fichier"
-    echo $(cat $fichier | sed -e 's/ /\n/g' )
+    echo "Liste des serveur dans le fichier :"
+    echo -e "\e[34$(cat $fichier | tr " " "\n" )"
 
 elif [ "$all" == "1" -a "$serv" == "1" ]; then
     echo -e "\nVous ne pouvez pas utiliser l'option -a et -s en même temps \n"
@@ -180,7 +183,7 @@ elif [ "$all" == "1" -o "$trace" == "1" -a "$dire" == "1" ]; then
         chmod 764 except.txt
     fi
 
-    for z in `seq 1 $(cat "$fichier" | wc -l)`; do
+    for z in `seq 1 $(($(cat "$fichier" | wc -l)+1))`; do
         if [ "$debug" == "0" ]; then
             addr=$(cat $fichier | tr "\n" " " | cut -d" " -f$z)
             if [ "$addr" != "" ];then
@@ -216,7 +219,7 @@ elif [ "$trac" == "1" ]; then
         chmod 764 except.txt
     fi
 
-    for z in `seq 1 $(cat $fichier | wc -l)`; do
+    for z in `seq 1 $(($(cat "$fichier" | wc -l)+1))`; do
         if [ "$debug" == "0" ]; then
             addr=$(cat $fichier | tr "\n" " " | cut -d" " -f$z)
             if [ "$addr" != "" ];then
@@ -230,15 +233,11 @@ elif [ "$trac" == "1" ]; then
         fi
     done
 
-    if [ "$dot" == "1" ]; then
-        sudo ./Dot.sh
-    fi
-
 elif [ "$dot" == "1" ]; then
     sudo ./Dot.sh
 
 else
-    echo """\e[32m
+    echo -e """\e[32m
 Name :
     Launch : Script permettant d'utiliser Traceroute et d'en sortir un graphe dot.
 
@@ -257,7 +256,7 @@ Exemple:
         Va executer un traceroute et va en créer le graph à partir d'un ficher de site déja défini
 
     launch -t -d -f fichier
-        va executer un traceroute et va en créer le graph à partir d'un fichier donnée
+        Va executer un traceroute et va en créer le graph à partir d'un fichier donnée
         Le fichier doit avoir un site par ligne
         '
         google.fr
@@ -265,12 +264,15 @@ Exemple:
         '
 
     launch -s google.fr
-        va executer un traceroute sur le site en question
+        Va executer un traceroute sur le site en question
 
     launch -l
-        donne la liste de site
+        Donne la liste de site
 
-    launch [-a] [-s site] -x
+    launch -e
+        Supprime les fichiers créer par se programme
+
+    launch [-a] [-s google.fr] -x
         Va executer le programme en mode débug
 
     """
