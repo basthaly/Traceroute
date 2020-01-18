@@ -16,8 +16,8 @@ if [ "$(echo $?)" != "0" ]; then
     apt-get install dnsutils -y &> /dev/null
 fi
 
-dot &> /dev/null
-if [ "$(echo $?)" != "0" ]; then
+dot -Tpdf test &> /dev/null
+if [ "$(echo $?)" == "127" ]; then
     echo -e "\nInstallation de Graphviz\n"
     apt-get install graphviz -y &> /dev/null
 fi
