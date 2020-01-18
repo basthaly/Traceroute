@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo -e "\e[35m\nCréation du graph dot\n"
+
 nbr=$(ls -l Traceroute | grep route | wc -l)
 
 echo "digraph mon_graphe {" > Route.txt
@@ -14,3 +16,5 @@ echo "}" >> Route.txt
 
 dot -Tpdf Route.txt -o Route.pdf
 chmod 764 Route.pdf
+
+echo -e "\e[35m\Graph dot créer\n"
