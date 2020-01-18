@@ -95,17 +95,22 @@ do
 
 	if [ "$var" = "* " ]; then
 
+		#Boucle dans la list de test
 		for i in "${list[@]}"; do
 			var=$(traceroute -q 1 -n -A -f $a -m $a $i $addr | awk '{print $2 " " $3}' | cut -d$'\n' -f2)
 			test=$(echo "$var" | cut -d" " -f1)
 
-			echo "$a : $var"
+			echo -e "\e[36m$a : $var"
+
+			#Si $var différent de *, rentre dans cette boucle
 			if [ "$var" != "* " ]; then
-				num=$(($(cat "except.txt" | wc -l)+1))
+				num=$(cat "except.txt" | wc -l)
+				#Si le fichier except.txt est vide
 				if [ $num = "0" ]; then
 					b=0
 					for z in "${list[@]}"; do
-						if [ "$1" = "$i" ]; then
+						#Permet de comparer les lists afin d'appliquer une couleur sur le graph
+						if [ "$z" = "$i" ]; then
 							var2=$(ip_calc $var) 
 							echo "\"$var $var2\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> except.txt
 							break
@@ -114,6 +119,7 @@ do
 					done
 				else
 					test_var="False"
+					#Regarde si une exception correspond déja à l'adresse et si ce n'est pas le cas, compare les lists afin d'appliquer une couleur sur le graph
 					for j in `seq 1 $num` ; do
 						if [ "$(cat except.txt | tr "\n" "|" | cut -d"|" -f$j | cut -d" " -f1-2 | sed -e "s/\"//g")" = "$var" ] ; then
 							test_var="True"
@@ -123,7 +129,8 @@ do
 					if [ $test_var = "False" ]; then
 						b=1
 						for z in "${list[@]}"; do
-							if [ "$1" = "$i" ]; then
+							#Permet de comparer les list afin d'appliquer une couleur sur le graph
+							if [ "$z" = "$i" ]; then
 								var2=$(ip_calc $var) 
 								echo "\"$var $var2\" [style=filled fillcolor=\"""${colors[$b]}""\"];" >> except.txt
 								break
@@ -139,10 +146,13 @@ do
 	else
 		echo -e "\e[36m$a : $var"
 	fi
+	#Si $var est différent de *, alors il écrit l'addresse dans le fichier qui lui correspond
 	if [ "$var" != "* " ]; then
 		var2=$(ip_calc $var)
 		echo "\"$var $var2\"" >> Traceroute/$addr.route
+	#Si $var est toujours égale à *, alors il écrit No reply dans le fichier qui lui correspond
 	else
+		#Le serveur 4 est souvent le même, on évite de dupliquer le serveur pour rien
 		if [ $a == "4" ]; then
 			echo "\"No reply : $a\"" >> Traceroute/$addr.route
 		else

@@ -128,6 +128,7 @@ chmod +x ./Dot.sh
 chmod +x ./Trace.sh
 echo " "
 
+# Commande help
 if [ "$help" == "1" ]; then
     echo -e """\e[32m
 Name :
@@ -169,19 +170,23 @@ Exemple:
 
     """
 
+# Commande effacer
 elif [ "$effacer" == "1" ]; then
     rm -f Traceroute/*
     rm -f except.txt
     rm -f Route.pdf
     rm -f Route.txt
 
+# Commande list
 elif [ "$list" == "1" ]; then
     echo "Liste des serveur dans le fichier :"
     echo -e "\e[34m$(cat $fichier | tr " " "\n" )"
 
+# test pour ne pas avoir 2 arguments en même temps
 elif [ "$all" == "1" -a "$serv" == "1" ]; then
     echo -e "\nVous ne pouvez pas utiliser l'option -a et -s en même temps \n"
 
+# Commande fesant un traceroute et le graph
 elif [ "$all" == "1" -o "$trace" == "1" -a "$dire" == "1" ]; then
     for z in `seq 1 $(($(cat "$fichier" | wc -l)+1))`; do
         if [ "$debug" == "0" ]; then
@@ -199,6 +204,7 @@ elif [ "$all" == "1" -o "$trace" == "1" -a "$dire" == "1" ]; then
 
     sudo ./Dot.sh
 
+# Commande Serveur
 elif [ "$serv" == "1" ]; then
     nslookup $serveur &> /dev/null
     test=$(echo $?)
@@ -212,6 +218,7 @@ elif [ "$serv" == "1" ]; then
         echo -e "\nPrenez un site valide \n"
     fi
 
+# Commande traceroute
 elif [ "$trac" == "1" ]; then
     for z in `seq 1 $(($(cat "$fichier" | wc -l)+1))`; do
         if [ "$debug" == "0" ]; then
@@ -227,9 +234,11 @@ elif [ "$trac" == "1" ]; then
         fi
     done
 
+# Commande Dot
 elif [ "$dot" == "1" ]; then
     sudo ./Dot.sh
 
+# Commande si aucun argument n'est renseigné, affiche l'aide
 else
     echo -e """\e[32m
 Name :
