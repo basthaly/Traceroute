@@ -31,6 +31,12 @@ case $option in
         ;;
     
     f)
+        ls $OPTARG >> /dev/null
+        while [ "$(echo $?)" != 0 ]; do
+            echo -e "\nLe fichier précisé est introuvable :"
+            read fich
+            ls $OPTARG >> /dev/null
+        done
         fichier=$OPTARG
         ;;
     
