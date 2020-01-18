@@ -137,7 +137,7 @@ do
 
 		done
 	else
-		echo "$a : $var"
+		echo -e "\e[36m$a : $var"
 	fi
 	if [ "$var" != "* " ]; then
 		var2=$(ip_calc $var)

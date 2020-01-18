@@ -114,6 +114,12 @@ if [ "$(echo $?)" != "0" ]; then
     mkdir ./Traceroute &> /dev/null
 fi
 
+cat except.txt &> /dev/null
+if [ "$(echo $?)" != "0" ]; then
+    > except.txt
+    chmod 764 except.txt
+fi
+
 dos2unix "$fichier" &> /dev/null
 dos2unix ./Dot.sh &> /dev/null
 dos2unix ./Trace.sh &> /dev/null
@@ -177,12 +183,6 @@ elif [ "$all" == "1" -a "$serv" == "1" ]; then
     echo -e "\nVous ne pouvez pas utiliser l'option -a et -s en même temps \n"
 
 elif [ "$all" == "1" -o "$trace" == "1" -a "$dire" == "1" ]; then
-    cat except.txt &> /dev/null
-    if [ "$(echo $?)" != "0" ]; then
-        > except.txt
-        chmod 764 except.txt
-    fi
-
     for z in `seq 1 $(($(cat "$fichier" | wc -l)+1))`; do
         if [ "$debug" == "0" ]; then
             addr=$(cat $fichier | tr "\n" " " | cut -d" " -f$z)
@@ -213,12 +213,6 @@ elif [ "$serv" == "1" ]; then
     fi
 
 elif [ "$trac" == "1" ]; then
-    cat except.txt &> /dev/null
-    if [ "$(echo $?)" != "0" ]; then
-        > except.txt
-        chmod 764 except.txt
-    fi
-
     for z in `seq 1 $(($(cat "$fichier" | wc -l)+1))`; do
         if [ "$debug" == "0" ]; then
             addr=$(cat $fichier | tr "\n" " " | cut -d" " -f$z)
