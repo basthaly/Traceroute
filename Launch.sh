@@ -1,5 +1,28 @@
 #!/bin/bash
 
+####################################################
+##   Test des modules essentiel et installation   ##
+####################################################
+
+do2unix ip.txt >> /dev/null
+if [ "$(echo $?)" != "0" ]; then
+    echo -e "\nInstallation de Dos2Unix\n"
+    apt-get install dos2unix -y >> /dev/null
+fi
+
+nslookup google.fr >> /dev/null
+if [ "$(echo $?)" != "0" ]; then
+    echo -e "\nInstallation de Dnsutils\n"
+    apt-get install dnsutils -y >> /dev/null
+fi
+
+dot >> /dev/null
+if [ "$(echo $?)" != "0" ]; then
+    echo -e "\nInstallation de Graphviz\n"
+    apt-get install graphviz -y >> /dev/null
+fi
+
+
 #######################################
 ##   Création des variables utiles   ##
 #######################################
@@ -31,12 +54,11 @@ case $option in
         ;;
     
     f)
-        ls $OPTARG >> /dev/null
-        while [ "$(echo $?)" != 0 ]; do
+        ls $OPTARG>>/dev/null
+        if [ "$(echo $?)" != 0 ]; do
             echo -e "\nLe fichier précisé est introuvable :"
-            read fich
-            ls $OPTARG >> /dev/null
-        done
+            exit 1
+        fi
         fichier=$OPTARG
         ;;
     
@@ -76,7 +98,7 @@ done
 ######################################
 
 echo " "
-ls ./Traceroute
+ls ./Traceroute >> /dev/null
 if [ "$(echo $?)" != "0" ]; then
     mkdir ./Traceroute
 fi
