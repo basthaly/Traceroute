@@ -4,22 +4,22 @@
 ##   Test des modules essentiel et installation   ##
 ####################################################
 
-do2unix ip.txt >> /dev/null
+dos2unix ip.txt &> /dev/null
 if [ "$(echo $?)" != "0" ]; then
     echo -e "\nInstallation de Dos2Unix\n"
-    apt-get install dos2unix -y >> /dev/null
+    apt-get install dos2unix -y &> /dev/null
 fi
 
-nslookup google.fr >> /dev/null
+nslookup google.fr &> /dev/null
 if [ "$(echo $?)" != "0" ]; then
     echo -e "\nInstallation de Dnsutils\n"
-    apt-get install dnsutils -y >> /dev/null
+    apt-get install dnsutils -y &> /dev/null
 fi
 
-dot >> /dev/null
+dot &> /dev/null
 if [ "$(echo $?)" != "0" ]; then
     echo -e "\nInstallation de Graphviz\n"
-    apt-get install graphviz -y >> /dev/null
+    apt-get install graphviz -y &> /dev/null
 fi
 
 
@@ -54,8 +54,8 @@ case $option in
         ;;
     
     f)
-        ls $OPTARG>>/dev/null
-        if [ "$(echo $?)" != 0 ]; do
+        ls $OPTARG &> /dev/null
+        if [ "$(echo $?)" != 0 ]; then
             echo -e "\nLe fichier précisé est introuvable :"
             exit 1
         fi
@@ -98,14 +98,14 @@ done
 ######################################
 
 echo " "
-ls ./Traceroute >> /dev/null
+ls ./Traceroute &> /dev/null
 if [ "$(echo $?)" != "0" ]; then
-    mkdir ./Traceroute
+    mkdir ./Traceroute &> /dev/null
 fi
 
-dos2unix "$fichier"
-dos2unix ./Dot.sh
-dos2unix ./Trace.sh
+dos2unix "$fichier" &> /dev/null
+dos2unix ./Dot.sh &> /dev/null
+dos2unix ./Trace.sh &> /dev/null
 
 chmod +x ./Dot.sh
 chmod +x ./Trace.sh
@@ -176,7 +176,7 @@ elif [ "$all" == "1" -o "$trace" == "1" -a "$dire" == "1" ]; then
     sudo ./Dot.sh
 
 elif [ "$serv" == "1" ]; then
-    nslookup $serveur >> /dev/null
+    nslookup $serveur &> /dev/null
     test=$(echo $?)
     if [ "$test" == "0" ]; then
         if [ "$debug" == "0" ]; then
