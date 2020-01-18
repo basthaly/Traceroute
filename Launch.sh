@@ -22,6 +22,12 @@ if [ "$(echo $?)" == "127" ]; then
     apt-get install graphviz -y &> /dev/null
 fi
 
+traceroute google.fr &> /dev/null
+if [ "$(echo $?)" != "0" ]; then
+    echo -e "\nInstallation de Traceroute\n"
+    apt-get install traceroute -y &> /dev/null
+fi
+
 
 #######################################
 ##   Création des variables utiles   ##
@@ -34,6 +40,7 @@ trac="0"
 dot="0"
 list="0"
 debug="0"
+effacer="0"
 
 fichier="ip.txt"
 
@@ -41,7 +48,7 @@ fichier="ip.txt"
 ##   Identification des arguments   ##
 ######################################
 
-while getopts "hxlatdf:s:" option
+while getopts "hxlatdef:s:" option
 do
 case $option in
     h)
@@ -82,6 +89,10 @@ case $option in
         debug="1"
         ;;
 
+    e)
+        effacer="1"
+        ;;
+
     \?)
         exit 1
         ;;
@@ -112,7 +123,7 @@ chmod +x ./Trace.sh
 echo " "
 
 if [ "$help" == "1" ]; then
-    echo """
+    echo """\e[32m
 Name :
     Launch : Script permettant d'utiliser Traceroute et d'en sortir un graphe dot.
 
@@ -149,15 +160,25 @@ Exemple:
 
     """
 
+elif [ "$effacer" == "1" ]; then
+    rm -f Traceroute/*
+    rm -f except.txt
+    rm -f Route.pdf
+    rm -f Route.txt
+
 elif [ "$list" == "1" ]; then
-    echo $(cat $fichier)
+    echo "Liste des serveur dans le fichier"
+    echo $(cat $fichier | sed -e 's/ /\n/g' )
 
 elif [ "$all" == "1" -a "$serv" == "1" ]; then
     echo -e "\nVous ne pouvez pas utiliser l'option -a et -s en même temps \n"
 
 elif [ "$all" == "1" -o "$trace" == "1" -a "$dire" == "1" ]; then
-    > except.txt
-    chmod 764 except.txt
+    cat except.txt &> /dev/null
+    if [ "$(echo $?)" != "0" ]; then
+        > except.txt
+        chmod 764 except.txt
+    fi
 
     for z in `seq 1 $(cat "$fichier" | wc -l)`; do
         if [ "$debug" == "0" ]; then
@@ -188,9 +209,12 @@ elif [ "$serv" == "1" ]; then
         echo -e "\nPrenez un site valide \n"
     fi
 
-elif [ "$trace" == "1" ]; then
-    > except.txt
-    chmod 764 except.txt
+elif [ "$trac" == "1" ]; then
+    cat except.txt &> /dev/null
+    if [ "$(echo $?)" != "0" ]; then
+        > except.txt
+        chmod 764 except.txt
+    fi
 
     for z in `seq 1 $(cat $fichier | wc -l)`; do
         if [ "$debug" == "0" ]; then
@@ -206,11 +230,15 @@ elif [ "$trace" == "1" ]; then
         fi
     done
 
+    if [ "$dot" == "1" ]; then
+        sudo ./Dot.sh
+    fi
+
 elif [ "$dot" == "1" ]; then
     sudo ./Dot.sh
 
 else
-    echo """
+    echo """\e[32m
 Name :
     Launch : Script permettant d'utiliser Traceroute et d'en sortir un graphe dot.
 
