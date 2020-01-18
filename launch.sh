@@ -171,7 +171,7 @@ elif [ "$effacer" == "1" ]; then
 
 elif [ "$list" == "1" ]; then
     echo "Liste des serveur dans le fichier :"
-    echo -e "\e[34$(cat $fichier | tr " " "\n" )"
+    echo -e "\e[34m$(cat $fichier | tr " " "\n" )"
 
 elif [ "$all" == "1" -a "$serv" == "1" ]; then
     echo -e "\nVous ne pouvez pas utiliser l'option -a et -s en même temps \n"
