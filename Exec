@@ -1,8 +1,0 @@
-#!/bin/bash
-
-for i in `seq 1 $(cat ip.txt | wc -l)`; do
-	echo "$(./Script_Tr $(cat ip.txt | tr "\n" " " | cut -d" " -f$i))"
-done
-
-echo $(./Script_dot)
-echo $(dot -Tpdf Route.txt -o Route.pdf)
