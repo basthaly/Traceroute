@@ -7,25 +7,25 @@
 dos2unix ip.txt &> /dev/null
 if [ "$(echo $?)" != "0" ]; then
     echo -e "\nInstallation de Dos2Unix\n"
-    apt-get install dos2unix -y &> /dev/null
+    sudo apt-get install dos2unix -y &> /dev/null
 fi
 
 nslookup google.fr &> /dev/null
 if [ "$(echo $?)" != "0" ]; then
     echo -e "\nInstallation de Dnsutils\n"
-    apt-get install dnsutils -y &> /dev/null
+    sudo apt-get install dnsutils -y &> /dev/null
 fi
 
 dot -Tpdf test &> /dev/null
 if [ "$(echo $?)" == "127" ]; then
     echo -e "\nInstallation de Graphviz\n"
-    apt-get install graphviz -y &> /dev/null
+    sudo apt-get install graphviz -y &> /dev/null
 fi
 
 traceroute google.fr &> /dev/null
 if [ "$(echo $?)" != "0" ]; then
     echo -e "\nInstallation de Traceroute\n"
-    apt-get install traceroute -y &> /dev/null
+    sudo apt-get install traceroute -y &> /dev/null
 fi
 
 
