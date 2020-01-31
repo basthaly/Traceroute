@@ -22,8 +22,8 @@ if [ "$(echo $?)" == "127" ]; then
     sudo apt-get install graphviz -y &> /dev/null
 fi
 
-traceroute google.fr &> /dev/null
-if [ "$(echo $?)" != "0" ]; then
+traceroute &> /dev/null
+if [ "$(echo $?)" == "127" ]; then
     echo -e "\nInstallation de Traceroute\n"
     sudo apt-get install traceroute -y &> /dev/null
 fi
