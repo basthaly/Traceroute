@@ -206,7 +206,7 @@ elif [ "$all" == "1" -o "$trace" == "1" -a "$dire" == "1" ]; then
 
 # Commande Serveur
 elif [ "$serv" == "1" ]; then
-    nslookup $serveur &> /dev/null
+    ping -c 1 $serveur &> /dev/null
     test=$(echo $?)
     if [ "$test" == "0" ]; then
         if [ "$debug" == "0" ]; then
